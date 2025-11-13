@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang='pt'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Prognósticos Pro FINAL</title>
+<link rel='stylesheet' href='style.css'>
+<link rel='manifest' href='manifest.json'>
+</head>
+<body>
+
+<h2>Prognósticos Pro ⚽ FINAL COMPLETA</h2>
+
+<div class='card'>
+<h3>🔵 Estatísticas (médias)</h3>
+<label>Gols marcados Casa</label><input id='gmCasa' type='number'>
+<label>Gols sofridos Casa</label><input id='gsCasa' type='number'>
+<label>Gols marcados Fora</label><input id='gmFora' type='number'>
+<label>Gols sofridos Fora</label><input id='gsFora' type='number'>
+<label>Forma Casa (0-10)</label><input id='formaCasa' type='number'>
+<label>Forma Fora (0-10)</label><input id='formaFora' type='number'>
+</div>
+
+<div class='card'>
+<h3>🟢 Odds Inseridas</h3>
+<label>Odd Casa (1)</label><input id='odd1' type='number'>
+<label>Odd Empate (X)</label><input id='oddX' type='number'>
+<label>Odd Fora (2)</label><input id='odd2' type='number'>
+<label>Odd 1X</label><input id='odd1X' type='number'>
+<label>Odd X2</label><input id='oddX2' type='number'>
+<label>Odd 12</label><input id='odd12' type='number'>
+<label>Odd Over 2.5</label><input id='oddOver' type='number'>
+<label>Odd Under 2.5</label><input id='oddUnder' type='number'>
+<label>Odd BTTS</label><input id='oddBTTS' type='number'>
+</div>
+
+<button onclick='calcular()'>Calcular Prognóstico Completo</button>
+
+<h3>Resultado</h3>
+<div id='res'></div>
+
+<script src='logic.js'></script>
+<script src='markets.js'></script>
+<script src='value.js'></script>
+<script src='app.js'></script>
+
+</body>
+</html>
