@@ -1,27 +1,33 @@
 <!DOCTYPE html><html lang='pt'>
-<head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<title>Prognósticos Pro FINAL</title>
-<link rel='stylesheet' href='style.css'>
-<link rel='manifest' href='manifest.json'>
-</head>
+<head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>Prognósticos Pro FINAL v2</title>
+<link rel='stylesheet' href='style.css'><link rel='manifest' href='manifest.json'></head>
 <body>
-
-<h2>Prognósticos Pro ⚽ FINAL COMPLETA</h2>
+<h2>Prognósticos Pro ⚽ FINAL v2</h2>
 
 <div class='card'>
-<h3>🔵 Estatísticas (médias)</h3>
-<label>Gols marcados Casa</label><input id='gmCasa' type='number'>
-<label>Gols sofridos Casa</label><input id='gsCasa' type='number'>
-<label>Gols marcados Fora</label><input id='gmFora' type='number'>
-<label>Gols sofridos Fora</label><input id='gsFora' type='number'>
-<label>Forma Casa (0-10)</label><input id='formaCasa' type='number'>
-<label>Forma Fora (0-10)</label><input id='formaFora' type='number'>
+<h3>🔵 Estatísticas Automáticas</h3>
+<label>Gols marcados Casa (ex: 2,1,2,0,0)</label>
+<input id='gmCasaAuto' type='text'>
+
+<label>Gols sofridos Casa</label>
+<input id='gsCasaAuto' type='text'>
+
+<label>Gols marcados Fora</label>
+<input id='gmForaAuto' type='text'>
+
+<label>Gols sofridos Fora</label>
+<input id='gsForaAuto' type='text'>
+
+<label>Forma Casa (V,E,D)</label>
+<input id='formaCasaAuto' type='text'>
+
+<label>Forma Fora (V,E,D)</label>
+<input id='formaForaAuto' type='text'>
 </div>
 
 <div class='card'>
-<h3>🟢 Odds Inseridas</h3>
+<h3>🟢 Odds</h3>
 <label>Odd Casa (1)</label><input id='odd1' type='number'>
 <label>Odd Empate (X)</label><input id='oddX' type='number'>
 <label>Odd Fora (2)</label><input id='odd2' type='number'>
@@ -33,15 +39,14 @@
 <label>Odd BTTS</label><input id='oddBTTS' type='number'>
 </div>
 
-<button onclick='calcular()'>Calcular Prognóstico Completo</button>
+<button onclick='calcular()'>Calcular Prognóstico Final</button>
 
 <h3>Resultado</h3>
 <div id='res'></div>
 
 <script src='logic.js'></script>
+<script src='auto.js'></script>
 <script src='markets.js'></script>
 <script src='value.js'></script>
 <script src='app.js'></script>
-
-</body>
-</html>
+</body></html>

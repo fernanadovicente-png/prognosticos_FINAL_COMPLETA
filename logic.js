@@ -8,19 +8,13 @@ function probs(gmC, gsC, gmF, gsF){
 
  let casa=0, fora=0, empate=0;
 
- for(let c=0;c<6;c++){
-   for(let f=0;f<6;f++){
-     let p = poisson(lambdaC,c) * poisson(lambdaF,f);
+ for(let c=0;c<7;c++){
+   for(let f=0;f<7;f++){
+     let p=poisson(lambdaC,c)*poisson(lambdaF,f);
      if(c>f) casa+=p;
      else if(f>c) fora+=p;
      else empate+=p;
    }
  }
-
- return { 
-   casa:(casa*100), 
-   empate:(empate*100), 
-   fora:(fora*100),
-   lambdaC, lambdaF
- };
+ return {casa:casa*100, empate:empate*100, fora:fora*100, lambdaC, lambdaF};
 }
