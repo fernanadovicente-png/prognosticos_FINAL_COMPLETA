@@ -1,3 +1,48 @@
+// ------------------------------------------------------
+// 🔗 Ligar inputs do HTML ao JavaScript
+// (garante que os IDs batem certo com o teu index.html)
+// ------------------------------------------------------
+const gmCasa  = document.getElementById("gmCasa");
+const gsCasa  = document.getElementById("gsCasa");
+const gmFora  = document.getElementById("gmFora");
+const gsFora  = document.getElementById("gsFora");
+
+const formaCasa = document.getElementById("formaCasa");
+const formaFora = document.getElementById("formaFora");
+
+const odd1     = document.getElementById("odd1");
+const oddX     = document.getElementById("oddX");
+const odd2     = document.getElementById("odd2");
+const odd1X    = document.getElementById("odd1X");
+const oddX2    = document.getElementById("oddX2");
+const odd12    = document.getElementById("odd12");
+const oddOver  = document.getElementById("oddOver");
+const oddUnder = document.getElementById("oddUnder");
+const oddBTTS  = document.getElementById("oddBTTS");
+
+// ------------------------------------------------------
+// ⚠ IMPORTANTE:
+// Certifica-te que NO HTML existem estes elementos:
+//
+// <input id="gmCasa" ...>
+// <input id="gsCasa" ...>
+// <input id="gmFora" ...>
+// <input id="gsFora" ...>
+// <input id="formaCasa" ...>
+// <input id="formaFora" ...>
+// <input id="odd1" ...>
+// <input id="oddX" ...>
+// <input id="odd2" ...>
+// <input id="odd1X" ...>
+// <input id="oddX2" ...>
+// <input id="odd12" ...>
+// <input id="oddOver" ...>
+// <input id="oddUnder" ...>
+// <input id="oddBTTS" ...>
+// <div id="res"></div>
+// ------------------------------------------------------
+
+
 //-------------------------------------------------------
 // 🔥 1. Converter Forma (V/E/D) → Pontos
 //-------------------------------------------------------
@@ -9,6 +54,16 @@ function formaParaPontos(str){
     .map(r => r === "V" ? 3 : r === "E" ? 1 : 0)
     .reduce((a,b)=>a+b,0);
 }
+
+//-------------------------------------------------------
+// ❗ AQUI pressupomos que JÁ tens no ficheiro:
+// - função probs(gmC, gsC, gmF, gsF)
+// - função calcOU(lambdaC, lambdaF)
+// - função calcBTTS(lambdaC, lambdaF)
+// - função ev(prob, odd)
+// Se elas estiverem noutro ficheiro, tem de ser carregado
+// no HTML ANTES deste app.js
+//-------------------------------------------------------
 
 //-------------------------------------------------------
 // 🔥 2. Função Principal
@@ -105,21 +160,32 @@ function calcular(){
   );
 
   //-------------------------------------------------------
+  // Se não houver nenhum mercado válido, evita crash
+  //-------------------------------------------------------
+  if (validos.length === 0) {
+    document.getElementById("res").innerHTML = `
+      <h3>Sem apostas recomendadas</h3>
+      Verifica os dados inseridos (golos, forma, odds).
+    `;
+    return;
+  }
+
+  //-------------------------------------------------------
   // 🔥 MELHOR APOSTA (maior EV realista)
   //-------------------------------------------------------
-  let best = validos.sort((a,b)=>b[1].ev - a[1].ev)[0];
+  let best = [...validos].sort((a,b)=>b[1].ev - a[1].ev)[0];
 
   //-------------------------------------------------------
   // ✅ APOSTA SEGURA (maior probabilidade)
   //-------------------------------------------------------
-  let segura = validos.sort((a,b)=>b[1].prob - a[1].prob)[0];
+  let segura = [...validos].sort((a,b)=>b[1].prob - a[1].prob)[0];
 
   //-------------------------------------------------------
   // 📌 APOSTA ALTERNATIVA (prob > 40% + EV positivo)
   //-------------------------------------------------------
   let alternativa = validos.filter(([k,v]) =>
     v.prob > 40 && v.ev > 0
-  )[0];
+  )[0] || null;
 
   //-------------------------------------------------------
   // 🎯 RESULTADO PROVÁVEL
