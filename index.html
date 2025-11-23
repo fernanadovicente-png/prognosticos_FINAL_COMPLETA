@@ -1,21 +1,68 @@
 <!DOCTYPE html>
-<html lang='pt'>
+<html lang="pt">
 <head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>SmartBet Edge Pro v1.4 FINAL</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartBet Edge Pro v1.5 PREMIUM</title>
 <link rel="manifest" href="manifest.webmanifest">
+
 <style>
-body{background:#0f172a;color:#e2e8f0;font-family:Arial;padding:16px;}
-.card{background:#1e293b;padding:14px;border-radius:12px;margin-bottom:14px;}
-input{width:100%;padding:8px;border-radius:8px;border:none;background:#334155;color:white;margin-bottom:8px;}
-button{width:100%;padding:12px;border:none;border-radius:8px;background:#22c55e;color:black;font-weight:bold;margin-top:8px;}
+body {
+  background:#0f172a;
+  color:#e2e8f0;
+  font-family: Arial, sans-serif;
+  padding:16px;
+}
+.card {
+  background:#1e293b;
+  padding:16px;
+  border-radius:14px;
+  margin-bottom:18px;
+}
+.card h3 { margin-top:0; }
+input {
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:none;
+  background:#334155;
+  color:white;
+  margin-bottom:10px;
+  font-size:15px;
+}
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:#22c55e;
+  color:black;
+  font-weight:bold;
+  font-size:17px;
+  margin-top:12px;
+}
+.result-box {
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:10px;
+  font-size:15px;
+}
+.green { background:#065f46; }
+.red   { background:#7f1d1d; }
+.yellow{ background:#92400e; }
+.section-title {
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
 </style>
 </head>
+
 <body>
 
-<h2>SmartBet Edge Pro v1.4 FINAL</h2>
+<h2>SmartBet Edge Pro v1.5 PREMIUM</h2>
 
+<!-- PROBABILIDADES 1X2 -->
 <div class="card">
 <h3>Probabilidades 1X2</h3>
 <input id="pHT1" placeholder="HT Casa (%)">
@@ -26,6 +73,7 @@ button{width:100%;padding:12px;border:none;border-radius:8px;background:#22c55e;
 <input id="pFT2" placeholder="FT Fora (%)">
 </div>
 
+<!-- GOLOS -->
 <div class="card">
 <h3>Golos</h3>
 <input id="pHTO05" placeholder="HT Over 0.5 (%)">
@@ -35,12 +83,14 @@ button{width:100%;padding:12px;border:none;border-radius:8px;background:#22c55e;
 <input id="pFTO35" placeholder="FT Over 3.5 (%)">
 </div>
 
+<!-- BTTS -->
 <div class="card">
 <h3>BTTS</h3>
 <input id="pBTTSY" placeholder="BTTS SIM (%)">
 <input id="pBTTSN" placeholder="BTTS NÃO (%)">
 </div>
 
+<!-- FORMA CASA -->
 <div class="card">
 <h3>Forma Casa (5 jogos em casa)</h3>
 <input id="fcV" placeholder="Vitórias Casa (5j)">
@@ -50,6 +100,7 @@ button{width:100%;padding:12px;border:none;border-radius:8px;background:#22c55e;
 <input id="fcGS" placeholder="GS Casa (5j)">
 </div>
 
+<!-- FORMA FORA -->
 <div class="card">
 <h3>Forma Fora (5 jogos fora)</h3>
 <input id="ffV" placeholder="Vitórias Fora (5j)">
@@ -59,17 +110,19 @@ button{width:100%;padding:12px;border:none;border-radius:8px;background:#22c55e;
 <input id="ffGS" placeholder="GS Fora (5j)">
 </div>
 
+<!-- H2H CORRIGIDO -->
 <div class="card">
 <h3>H2H (Últimos 5 confrontos)</h3>
-<input id="h2hHome" placeholder="Vitórias Casa">
-<input id="h2hDraw" placeholder="Empates">
-<input id="h2hAway" placeholder="Vitórias Fora">
-<input id="h2hGM" placeholder="GM Totais H2H">
-<input id="h2hGS" placeholder="GS Totais H2H">
+<input id="h2hHomeW" placeholder="Vitórias Casa (5j)">
+<input id="h2hDraw" placeholder="Empates (5j)">
+<input id="h2hAwayW" placeholder="Vitórias Fora (5j)">
+<input id="h2hGMHome" placeholder="Golos marcados pela Casa (5j)">
+<input id="h2hGMAway" placeholder="Golos marcados pela Fora (5j)">
 </div>
 
+<!-- ODDS -->
 <div class="card">
-<h3>Odds</h3>
+<h3>Odds do Mercado</h3>
 <input id="o1" placeholder="Odd 1">
 <input id="oX" placeholder="Odd X">
 <input id="o2" placeholder="Odd 2">
@@ -85,41 +138,154 @@ button{width:100%;padding:12px;border:none;border-radius:8px;background:#22c55e;
 
 <button onclick="calcular()">Calcular Modelo Completo</button>
 
+<!-- RESULTADOS PREMIUM -->
 <div class="card">
 <h3>Resultado</h3>
-<div id="saida">Insira dados e calcule.</div>
+
+<div id="ev1x2"></div>
+<div id="evdc"></div>
+<div id="evou"></div>
+<div id="evbtts"></div>
+<div id="resprov"></div>
+<div id="alerts"></div>
+
 </div>
 
 <script>
+
+// ----------------------------
+// FUNÇÕES BASE
+// ----------------------------
 function EV(prob, odd){
-    prob = prob/100;
-    if(!odd || odd <=1) return -999;
-    return prob*(odd-1) - (1-prob);
+  prob = prob/100;
+  if(!odd || odd<=1) return -999;
+  return prob*(odd-1) - (1-prob);
+}
+
+function badge(value){
+  if(value > 0) return `<div class="result-box green">✔️ EV: ${value.toFixed(3)}</div>`;
+  if(value == 0) return `<div class="result-box yellow">⚠️ EV: 0</div>`;
+  return `<div class="result-box red">❌ EV: ${value.toFixed(3)}</div>`;
 }
 
 function calcular(){
-    let p1 = parseFloat(pFT1.value||0);
-    let px = parseFloat(pFTX.value||0);
-    let p2 = parseFloat(pFT2.value||0);
-    let o1v = parseFloat(o1.value||0);
-    let oxv = parseFloat(oX.value||0);
-    let o2v = parseFloat(o2.value||0);
 
-    let ev1 = EV(p1,o1v);
-    let evx = EV(px,oxv);
-    let ev2 = EV(p2,o2v);
+// ----------------------------
+// EV 1X2
+// ----------------------------
+let p1 = +pFT1.value||0;
+let px = +pFTX.value||0;
+let p2 = +pFT2.value||0;
 
-    let melhor = "Nenhuma aposta tem EV positivo";
-    let evMax = Math.max(ev1,evx,ev2);
+let ev1 = EV(p1, +o1.value);
+let evx = EV(px, +oX.value);
+let ev2 = EV(p2, +o2.value);
 
-    if(evMax > 0){
-        if(evMax===ev1) melhor = "Melhor aposta: 1 (Casa)";
-        if(evMax===evx) melhor = "Melhor aposta: X (Empate)";
-        if(evMax===ev2) melhor = "Melhor aposta: 2 (Fora)";
-    }
-
-    saida.innerHTML = "EV Casa: "+ev1.toFixed(3)+"<br>EV Empate: "+evx.toFixed(3)+"<br>EV Fora: "+ev2.toFixed(3)+"<br><br>"+melhor;
+let best = "Nenhum (EV negativo)";
+let m = Math.max(ev1,evx,ev2);
+if(m>0){
+  if(m==ev1) best="✔️ Melhor 1X2: 1 (Casa)";
+  if(m==evx) best="✔️ Melhor 1X2: X (Empate)";
+  if(m==ev2) best="✔️ Melhor 1X2: 2 (Fora)";
 }
+
+ev1x2.innerHTML =
+  `<div class='section-title'>EV 1X2</div>`+
+  `Casa ${badge(ev1)}`+
+  `Empate ${badge(evx)}`+
+  `Fora ${badge(ev2)}`+
+  `<div class='result-box yellow'>${best}</div>`;
+
+// ----------------------------
+// EV Double Chance
+// ----------------------------
+let p1x = p1+px;
+let px2 = px+p2;
+let p12 = p1+p2;
+
+let ev1x = EV(p1x, +o1X.value);
+let evx2 = EV(px2, +oX2.value);
+let ev12 = EV(p12, +o12.value);
+
+let bestDC = "Nenhum (EV negativo)";
+let maxdc = Math.max(ev1x,evx2,ev12);
+if(maxdc>0){
+  if(maxdc==ev1x) bestDC="✔️ Melhor DC: 1X";
+  if(maxdc==evx2) bestDC="✔️ Melhor DC: X2";
+  if(maxdc==ev12) bestDC="✔️ Melhor DC: 12";
+}
+
+evdc.innerHTML =
+  `<div class='section-title'>EV Double Chance</div>`+
+  `1X ${badge(ev1x)}`+
+  `X2 ${badge(evx2)}`+
+  `12 ${badge(ev12)}`+
+  `<div class='result-box yellow'>${bestDC}</div>`;
+
+// ----------------------------
+// EV Over/Under & BTTS
+// ----------------------------
+let evO15 = EV(+pFTO15.value, +oO15.value);
+let evO25 = EV(+pFTO25.value, +oO25.value);
+let evO35 = EV(+pFTO35.value, +oO35.value);
+
+let evBTY = EV(+pBTTSY.value, +oBTTSY.value);
+let evBTN = EV(+pBTTSN.value, +oBTTSN.value);
+
+evou.innerHTML =
+  `<div class='section-title'>EV Over/Under</div>`+
+  `Over 1.5 ${badge(evO15)}`+
+  `Over 2.5 ${badge(evO25)}`+
+  `Over 3.5 ${badge(evO35)}`;
+
+evbtts.innerHTML =
+  `<div class='section-title'>EV BTTS</div>`+
+  `BTTS SIM ${badge(evBTY)}`+
+  `BTTS NÃO ${badge(evBTN)}`;
+
+// ----------------------------
+// Resultado provável
+// ----------------------------
+let casaAtk = (+fcGM.value||0)/5;
+let foraAtk = (+ffGM.value||0)/5;
+let hAtkC = (+h2hGMHome.value||0)/5;
+let hAtkF = (+h2hGMAway.value||0)/5;
+
+let atkCasa = (casaAtk + hAtkC)/2;
+let atkFora = (foraAtk + hAtkF)/2;
+
+let gC = Math.max(0, Math.round(atkCasa * 1.4));
+let gF = Math.max(0, Math.round(atkFora * 1.4));
+
+resprov.innerHTML =
+  `<div class='section-title'>Resultado Provável</div>`+
+  `<div class='result-box green'>🔮 ${gC} - ${gF}</div>`;
+
+// ----------------------------
+// Alertas Inteligentes
+// ----------------------------
+let alertas = "";
+
+if(foraAtk < 0.6 && +pBTTSY.value>55){
+  alertas += "⚠️ Fora marca pouco → BTTS SIM inflacionado.<br>";
+}
+if((+h2hGMHome.value + +h2hGMAway.value) < 5 && +pFTO25.value>50){
+  alertas += "⚠️ H2H de poucos golos → Over 2.5 arriscado.<br>";
+}
+if(+fcD.value >=3){
+  alertas += "⚠️ Casa perde muito em casa.<br>";
+}
+if(+ffD.value >=3){
+  alertas += "⚠️ Fora perde muito fora.<br>";
+}
+
+alerts.innerHTML =
+  `<div class='section-title'>Alertas</div>`+
+  (alertas ? `<div class='result-box yellow'>${alertas}</div>` :
+             `<div class='result-box green'>✔️ Sem alertas críticos</div>`);
+
+}
+
 </script>
 
 </body>
