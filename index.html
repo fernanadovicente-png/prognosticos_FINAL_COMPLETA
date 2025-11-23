@@ -1,165 +1,150 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SmartBet Edge Pro v3.2 — Modelo Conservador</title>
-
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width,initial-scale=1'>
+<title>SmartBet EdgePro v1.9</title>
 <style>
-body{background:#0f172a;color:#e2e8f0;font-family:Arial;padding:14px;}
-.card{background:#1e293b;padding:12px;border-radius:12px;margin-bottom:14px;}
-input{width:100%;padding:8px;margin-bottom:8px;border:none;border-radius:8px;background:#334155;color:white;}
-button{width:100%;padding:14px;border:none;border-radius:8px;background:#22c55e;color:black;font-weight:bold;}
-.resultado{background:#0ea5e9;color:black;font-weight:bold;padding:14px;border-radius:12px;}
-.alert{background:#facc15;color:black;padding:12px;border-radius:12px;}
+body{background:#0a0a0a;color:#eee;font-family:Arial;padding:16px;}
+.card{background:#121212;padding:14px;border-radius:14px;margin-bottom:16px;box-shadow:0 0 8px #0005;}
+h3{color:#4ea3ff;margin-bottom:10px;}
+input{width:100%;padding:10px;margin-bottom:6px;background:#1c1c1c;border:none;border-radius:8px;color:#fff;}
+button{width:100%;padding:12px;background:#4ea3ff;border:none;border-radius:10px;color:#000;font-weight:bold;}
 </style>
 </head>
-
 <body>
 
-<h2>SmartBet Edge Pro v3.2 — Modelo % Puro (Conservador)</h2>
+<h2>SmartBet EdgePro v1.9 Ultra Premium</h2>
 
-<!-- Probabilidades -->
-<div class="card">
-<h3>Probabilidades 1X2</h3>
-<input id="pCasa" placeholder="Casa (%)">
-<input id="pEmpate" placeholder="Empate (%)">
-<input id="pFora" placeholder="Fora (%)">
+<div class='card'>
+<h3>Probabilidades FT</h3>
+<input id='p1' placeholder='Casa %'>
+<input id='px' placeholder='Empate %'>
+<input id='p2' placeholder='Fora %'>
 </div>
 
-<!-- Golos -->
-<div class="card">
-<h3>Golos Totais</h3>
-<input id="over15" placeholder="Over 1.5 (%)">
-<input id="over25" placeholder="Over 2.5 (%)">
-<input id="over35" placeholder="Over 3.5 (%)">
+<div class='card'>
+<h3>Odds 1X2</h3>
+<input id='o1' placeholder='Odd 1'>
+<input id='ox' placeholder='Odd X'>
+<input id='o2' placeholder='Odd 2'>
 </div>
 
-<!-- BTTS -->
-<div class="card">
-<h3>BTTS</h3>
-<input id="bttsSim" placeholder="BTTS SIM (%)">
-<input id="bttsNao" placeholder="BTTS NÃO (%)">
+<div class='card'>
+<h3>Odds Double Chance</h3>
+<input id='o1x' placeholder='Odd 1X'>
+<input id='ox2' placeholder='Odd X2'>
+<input id='o12' placeholder='Odd 12'>
 </div>
 
-<!-- Forma Casa -->
-<div class="card">
-<h3>Forma Casa (5 jogos)</h3>
-<input id="fcV" placeholder="Vitórias">
-<input id="fcE" placeholder="Empates">
-<input id="fcD" placeholder="Derrotas">
-<input id="fcGM" placeholder="Golos Marcados">
-<input id="fcGS" placeholder="Golos Sofridos">
+<div class='card'>
+<h3>Odds Over/BTTS</h3>
+<input id='o15' placeholder='Over 1.5'>
+<input id='o25' placeholder='Over 2.5'>
+<input id='o35' placeholder='Over 3.5'>
+<input id='obtts' placeholder='BTTS SIM'>
+<input id='obttsn' placeholder='BTTS NÃO'>
 </div>
 
-<!-- Forma Fora -->
-<div class="card">
-<h3>Forma Fora (5 jogos)</h3>
-<input id="ffV" placeholder="Vitórias">
-<input id="ffE" placeholder="Empates">
-<input id="ffD" placeholder="Derrotas">
-<input id="ffGM" placeholder="Golos Marcados">
-<input id="ffGS" placeholder="Golos Sofridos">
+<div class='card'>
+<h3>Forma Geral (Últimos 5 Jogos)</h3>
+<input id='gV' placeholder='Vitórias Gerais'>
+<input id='gE' placeholder='Empates Gerais'>
+<input id='gD' placeholder='Derrotas Gerais'>
+<input id='gGM' placeholder='Golos Marcados Geral'>
+<input id='gGS' placeholder='Golos Sofridos Geral'>
 </div>
 
-<!-- H2H -->
-<div class="card">
-<h3>H2H (Últimos 5 jogos)</h3>
-<input id="h2hC" placeholder="Vitórias Casa">
-<input id="h2hE" placeholder="Empates">
-<input id="h2hF" placeholder="Vitórias Fora">
-<input id="h2hGMC" placeholder="Golos Casa marcados">
-<input id="h2hGMF" placeholder="Golos Fora marcados">
+<div class='card'>
+<h3>Forma Casa (5 jogos em casa)</h3>
+<input id='fcV' placeholder='Vitórias Casa'>
+<input id='fcE' placeholder='Empates Casa'>
+<input id='fcD' placeholder='Derrotas Casa'>
+<input id='fcGM' placeholder='GM Casa'>
+<input id='fcGS' placeholder='GS Casa'>
 </div>
 
-<button onclick="calcular()">Calcular</button>
+<div class='card'>
+<h3>Forma Fora (5 jogos fora)</h3>
+<input id='ffV' placeholder='Vitórias Fora'>
+<input id='ffE' placeholder='Empates Fora'>
+<input id='ffD' placeholder='Derrotas Fora'>
+<input id='ffGM' placeholder='GM Fora'>
+<input id='ffGS' placeholder='GS Fora'>
+</div>
 
-<div id="resultado" class="resultado"></div>
-<div id="mercados" class="card"></div>
-<div id="alertas" class="alert"></div>
+<div class='card'>
+<h3>H2H (Últimos 5)</h3>
+<input id='hhome' placeholder='Vitórias Casa'>
+<input id='hdraw' placeholder='Empates'>
+<input id='haway' placeholder='Vitórias Fora'>
+</div>
+
+<button onclick='calc()'>Calcular</button>
+
+<div class='card'><h3>OUTPUT</h3><div id='out'>–</div></div>
 
 <script>
-function n(v){return parseFloat(v)||0;}
+function gv(id){return parseFloat(document.getElementById(id).value||0);}
+function EV(p,odd){p=p/100;return p*(odd-1)-(1-p);}
 
-function limitar(valor){
-    if(valor < 0) return 0;
-    if(valor > 3) return 3;
-    return Math.round(valor);
-}
+function calc(){
+ let p1=gv('p1'), px=gv('px'), p2=gv('p2');
+ let o1=gv('o1'), ox=gv('ox'), o2=gv('o2');
+ let o1x=gv('o1x'), ox2=gv('ox2'), o12=gv('o12');
+ let o15=gv('o15'), o25=gv('o25'), o35=gv('o35');
+ let obtts=gv('obtts'), obttsn=gv('obttsn');
 
-function calcular(){
+ let gV=gv('gV'), gE=gv('gE'), gD=gv('gD'), gGM=gv('gGM'), gGS=gv('gGS');
+ let fcV=gv('fcV'), fcE=gv('fcE'), fcD=gv('fcD'), fcGM=gv('fcGM'), fcGS=gv('fcGS');
+ let ffV=gv('ffV'), ffE=gv('ffE'), ffD=gv('ffD'), ffGM=gv('ffGM'), ffGS=gv('ffGS');
 
-// Probabilidades 1X2
-let p1=n(pCasa.value), px=n(pEmpate.value), p2=n(pFora.value);
+ let h=gv('hhome')*3 + gv('hdraw') - gv('haway');
 
-let vencedor="Equilibrado";
-if(p1>p2 && p1>px) vencedor="Casa";
-if(p2>p1 && p2>px) vencedor="Fora";
-if(px>p1 && px>p2) vencedor="Empate";
+ let ev1=EV(p1,o1), evx=EV(px,ox), ev2=EV(p2,o2);
+ let ev1X=EV(p1+px,o1x), evX2=EV(px+p2,ox2), ev12=EV(p1+p2,o12);
+ let evO25=EV((gGM/5 + fcGM/5 + ffGM/5), o25);
+ let evBTTS=EV((gGM+ffGM)/10, obtts);
 
-// Forma
-let formaC = n(fcV.value)*3 + n(fcE.value);
-let formaF = n(ffV.value)*3 + n(ffE.value);
+ let formGeneral = gV*3 + gE - gD;
+ let formHome = fcV*3 + fcE - fcD;
+ let formAway = ffV*3 + ffE - ffD;
 
-// H2H
-let hC=n(h2hC.value), hF=n(h2hF.value);
+ let attHome = (gGM + fcGM)/10;
+ let defHome = (gGS + fcGS)/10;
+ let attAway = (gGM + ffGM)/10;
+ let defAway = (gGS + ffGS)/10;
 
-// Golos previstos (conservador)
-let of25=n(over25.value), btts=n(bttsSim.value);
-let ataqueCasa = (p1/40 + formaC/15 + hC/5 + of25/50 + btts/60)/5;
-let ataqueFora = (p2/40 + formaF/15 + hF/5 + of25/50 + btts/60)/5;
+ let hybrid = formGeneral + (formHome - formAway) + (attHome - defAway) + h + (p1 - p2);
 
-let gCasa = limitar(ataqueCasa);
-let gFora = limitar(ataqueFora);
+ let gh = Math.max(0, attHome - defAway/2 + hybrid/300);
+ let ga = Math.max(0, attAway - defHome/2 - hybrid/300);
 
-let resultado = gCasa+" - "+gFora;
+ function sim(gh,ga){
+   let scores={};
+   for(let i=0;i<1000;i++){
+     let H=Math.max(0,Math.round(gh+(Math.random()-0.5)));
+     let A=Math.max(0,Math.round(ga+(Math.random()-0.5)));
+     let k=H+"-"+A; scores[k]=(scores[k]||0)+1;
+   }
+   return Object.entries(scores).sort((a,b)=>b[1]-a[1]).slice(0,3);
+ }
 
-// Double Chance
-let dc1x = p1+px;
-let dcX2 = px+p2;
-let dc12 = p1+p2;
+ let res=sim(gh,ga);
 
-// Top 3 resultados
-let top1 = resultado;
-let top2 = limitar(gCasa)+" - "+limitar(gFora-1);
-let top3 = limitar(gCasa-1)+" - "+limitar(gFora);
+ let out="<b>EV 1:</b>"+ev1.toFixed(3)+"<br>";
+ out+="<b>EV X:</b>"+evx.toFixed(3)+"<br>";
+ out+="<b>EV 2:</b>"+ev2.toFixed(3)+"<br><br>";
+ out+="<b>EV 1X:</b>"+ev1X.toFixed(3)+"<br>";
+ out+="<b>EV X2:</b>"+evX2.toFixed(3)+"<br>";
+ out+="<b>EV 12:</b>"+ev12.toFixed(3)+"<br><br>";
+ out+="<b>EV Over2.5:</b>"+evO25.toFixed(3)+"<br>";
+ out+="<b>EV BTTS:</b>"+evBTTS.toFixed(3)+"<br><br>";
 
-// Tendências
-let tendencias="";
-tendencias += (n(over25.value)>=50 ? "Over 2.5 provável<br>" : "Under 2.5 provável<br>");
-tendencias += (btts>=50 ? "BTTS SIM provável<br>" : "BTTS NÃO provável<br>");
+ out+="<h3>🔮 Resultado Provável (%)</h3>";
+ res.forEach(r=> out+=r[0]+" ("+(r[1]/10).toFixed(1)+"%)<br>");
 
-// Danger Index
-let danger="Sem alertas — jogo coerente.";
-if(vencedor==="Casa" && formaF>formaC) danger="⚠️ Forma favorece Fora.";
-if(vencedor==="Fora" && formaC>formaF) danger="⚠️ Forma favorece Casa.";
-if(vencedor==="Casa" && hF>hC) danger="⚠️ H2H perigoso para Casa.";
-
-// OUTPUT
-document.getElementById("resultado").innerHTML =
-"<h3>Resultado Provável</h3><b>"+resultado+
-"</b><br><small>Vencedor provável: "+vencedor+"</small>";
-
-document.getElementById("mercados").innerHTML = `
-<h3>Mercados Compactos</h3>
-<b>Double Chance:</b><br>
-1X: ${dc1x}%<br>
-X2: ${dcX2}%<br>
-12: ${dc12}%<br><br>
-
-<b>Top 3 Resultados:</b><br>
-1) ${top1}<br>
-2) ${top2}<br>
-3) ${top3}<br><br>
-
-<b>Tendências:</b><br>${tendencias}
-
-<b>Golos Prováveis:</b><br>
-Casa: ${gCasa}<br>
-Fora: ${gFora}<br>
-`;
-
-document.getElementById("alertas").innerHTML = danger;
+ document.getElementById('out').innerHTML=out;
 }
 </script>
 
