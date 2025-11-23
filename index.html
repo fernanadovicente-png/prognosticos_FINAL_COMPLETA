@@ -1,52 +1,126 @@
-<!DOCTYPE html><html lang='pt'>
-<head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'>
-<title>Prognósticos Pro FINAL v2</title>
-<link rel='stylesheet' href='style.css'><link rel='manifest' href='manifest.json'></head>
+<!DOCTYPE html>
+<html lang='pt'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>SmartBet Edge Pro v1.4 FINAL</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+body{background:#0f172a;color:#e2e8f0;font-family:Arial;padding:16px;}
+.card{background:#1e293b;padding:14px;border-radius:12px;margin-bottom:14px;}
+input{width:100%;padding:8px;border-radius:8px;border:none;background:#334155;color:white;margin-bottom:8px;}
+button{width:100%;padding:12px;border:none;border-radius:8px;background:#22c55e;color:black;font-weight:bold;margin-top:8px;}
+</style>
+</head>
 <body>
-<h2>Prognósticos Pro ⚽ FINAL v2</h2>
 
-<div class='card'>
-<h3>🔵 Estatísticas Automáticas</h3>
-<label>Gols marcados Casa (ex: 2,1,2,0,0)</label>
-<input id='gmCasaAuto' type='text'>
+<h2>SmartBet Edge Pro v1.4 FINAL</h2>
 
-<label>Gols sofridos Casa</label>
-<input id='gsCasaAuto' type='text'>
-
-<label>Gols marcados Fora</label>
-<input id='gmForaAuto' type='text'>
-
-<label>Gols sofridos Fora</label>
-<input id='gsForaAuto' type='text'>
-
-<label>Forma Casa (V,E,D)</label>
-<input id='formaCasaAuto' type='text'>
-
-<label>Forma Fora (V,E,D)</label>
-<input id='formaForaAuto' type='text'>
+<div class="card">
+<h3>Probabilidades 1X2</h3>
+<input id="pHT1" placeholder="HT Casa (%)">
+<input id="pHTX" placeholder="HT X (%)">
+<input id="pHT2" placeholder="HT Fora (%)">
+<input id="pFT1" placeholder="FT Casa (%)">
+<input id="pFTX" placeholder="FT X (%)">
+<input id="pFT2" placeholder="FT Fora (%)">
 </div>
 
-<div class='card'>
-<h3>🟢 Odds</h3>
-<label>Odd Casa (1)</label><input id='odd1' type='number'>
-<label>Odd Empate (X)</label><input id='oddX' type='number'>
-<label>Odd Fora (2)</label><input id='odd2' type='number'>
-<label>Odd 1X</label><input id='odd1X' type='number'>
-<label>Odd X2</label><input id='oddX2' type='number'>
-<label>Odd 12</label><input id='odd12' type='number'>
-<label>Odd Over 2.5</label><input id='oddOver' type='number'>
-<label>Odd Under 2.5</label><input id='oddUnder' type='number'>
-<label>Odd BTTS</label><input id='oddBTTS' type='number'>
+<div class="card">
+<h3>Golos</h3>
+<input id="pHTO05" placeholder="HT Over 0.5 (%)">
+<input id="pHTO15" placeholder="HT Over 1.5 (%)">
+<input id="pFTO15" placeholder="FT Over 1.5 (%)">
+<input id="pFTO25" placeholder="FT Over 2.5 (%)">
+<input id="pFTO35" placeholder="FT Over 3.5 (%)">
 </div>
 
-<button onclick='calcular()'>Calcular Prognóstico Final</button>
+<div class="card">
+<h3>BTTS</h3>
+<input id="pBTTSY" placeholder="BTTS SIM (%)">
+<input id="pBTTSN" placeholder="BTTS NÃO (%)">
+</div>
 
+<div class="card">
+<h3>Forma Casa (5 jogos em casa)</h3>
+<input id="fcV" placeholder="Vitórias Casa (5j)">
+<input id="fcE" placeholder="Empates Casa (5j)">
+<input id="fcD" placeholder="Derrotas Casa (5j)">
+<input id="fcGM" placeholder="GM Casa (5j)">
+<input id="fcGS" placeholder="GS Casa (5j)">
+</div>
+
+<div class="card">
+<h3>Forma Fora (5 jogos fora)</h3>
+<input id="ffV" placeholder="Vitórias Fora (5j)">
+<input id="ffE" placeholder="Empates Fora (5j)">
+<input id="ffD" placeholder="Derrotas Fora (5j)">
+<input id="ffGM" placeholder="GM Fora (5j)">
+<input id="ffGS" placeholder="GS Fora (5j)">
+</div>
+
+<div class="card">
+<h3>H2H (Últimos 5 confrontos)</h3>
+<input id="h2hHome" placeholder="Vitórias Casa">
+<input id="h2hDraw" placeholder="Empates">
+<input id="h2hAway" placeholder="Vitórias Fora">
+<input id="h2hGM" placeholder="GM Totais H2H">
+<input id="h2hGS" placeholder="GS Totais H2H">
+</div>
+
+<div class="card">
+<h3>Odds</h3>
+<input id="o1" placeholder="Odd 1">
+<input id="oX" placeholder="Odd X">
+<input id="o2" placeholder="Odd 2">
+<input id="o1X" placeholder="Odd 1X">
+<input id="oX2" placeholder="Odd X2">
+<input id="o12" placeholder="Odd 12">
+<input id="oO15" placeholder="Odd Over 1.5">
+<input id="oO25" placeholder="Odd Over 2.5">
+<input id="oO35" placeholder="Odd Over 3.5">
+<input id="oBTTSY" placeholder="Odd BTTS SIM">
+<input id="oBTTSN" placeholder="Odd BTTS NÃO">
+</div>
+
+<button onclick="calcular()">Calcular Modelo Completo</button>
+
+<div class="card">
 <h3>Resultado</h3>
-<div id='res'></div>
+<div id="saida">Insira dados e calcule.</div>
+</div>
 
-<script src='logic.js'></script>
-<script src='auto.js'></script>
-<script src='markets.js'></script>
-<script src='value.js'></script>
-<script src='app.js'></script>
-</body></html>
+<script>
+function EV(prob, odd){
+    prob = prob/100;
+    if(!odd || odd <=1) return -999;
+    return prob*(odd-1) - (1-prob);
+}
+
+function calcular(){
+    let p1 = parseFloat(pFT1.value||0);
+    let px = parseFloat(pFTX.value||0);
+    let p2 = parseFloat(pFT2.value||0);
+    let o1v = parseFloat(o1.value||0);
+    let oxv = parseFloat(oX.value||0);
+    let o2v = parseFloat(o2.value||0);
+
+    let ev1 = EV(p1,o1v);
+    let evx = EV(px,oxv);
+    let ev2 = EV(p2,o2v);
+
+    let melhor = "Nenhuma aposta tem EV positivo";
+    let evMax = Math.max(ev1,evx,ev2);
+
+    if(evMax > 0){
+        if(evMax===ev1) melhor = "Melhor aposta: 1 (Casa)";
+        if(evMax===evx) melhor = "Melhor aposta: X (Empate)";
+        if(evMax===ev2) melhor = "Melhor aposta: 2 (Fora)";
+    }
+
+    saida.innerHTML = "EV Casa: "+ev1.toFixed(3)+"<br>EV Empate: "+evx.toFixed(3)+"<br>EV Fora: "+ev2.toFixed(3)+"<br><br>"+melhor;
+}
+</script>
+
+</body>
+</html>
