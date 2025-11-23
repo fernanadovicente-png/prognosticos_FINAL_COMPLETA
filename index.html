@@ -24,6 +24,12 @@ button{width:100%;padding:12px;background:#4ea3ff;border:none;border-radius:10px
 </div>
 
 <div class='card'>
+<h3>Classificação na Tabela</h3>
+<input id='rankHome' placeholder='Posição Equipa da Casa (ex: 3)'>
+<input id='rankAway' placeholder='Posição Equipa Visitante (ex: 10)'>
+</div>
+
+<div class='card'>
 <h3>Odds 1X2</h3>
 <input id='o1' placeholder='Odd 1'>
 <input id='ox' placeholder='Odd X'>
@@ -44,15 +50,6 @@ button{width:100%;padding:12px;background:#4ea3ff;border:none;border-radius:10px
 <input id='o35' placeholder='Over 3.5'>
 <input id='obtts' placeholder='BTTS SIM'>
 <input id='obttsn' placeholder='BTTS NÃO'>
-</div>
-
-<div class='card'>
-<h3>Forma Geral (Últimos 5 Jogos)</h3>
-<input id='gV' placeholder='Vitórias Gerais'>
-<input id='gE' placeholder='Empates Gerais'>
-<input id='gD' placeholder='Derrotas Gerais'>
-<input id='gGM' placeholder='Golos Marcados Geral'>
-<input id='gGS' placeholder='Golos Sofridos Geral'>
 </div>
 
 <div class='card'>
@@ -95,39 +92,44 @@ function calc(){
  let o15=gv('o15'), o25=gv('o25'), o35=gv('o35');
  let obtts=gv('obtts'), obttsn=gv('obttsn');
 
- let gV=gv('gV'), gE=gv('gE'), gD=gv('gD'), gGM=gv('gGM'), gGS=gv('gGS');
  let fcV=gv('fcV'), fcE=gv('fcE'), fcD=gv('fcD'), fcGM=gv('fcGM'), fcGS=gv('fcGS');
  let ffV=gv('ffV'), ffE=gv('ffE'), ffD=gv('ffD'), ffGM=gv('ffGM'), ffGS=gv('ffGS');
+
+ let rankHome = gv('rankHome');
+ let rankAway = gv('rankAway');
 
  let h=gv('hhome')*3 + gv('hdraw') - gv('haway');
 
  let ev1=EV(p1,o1), evx=EV(px,ox), ev2=EV(p2,o2);
  let ev1X=EV(p1+px,o1x), evX2=EV(px+p2,ox2), ev12=EV(p1+p2,o12);
- let evO25=EV((gGM/5 + fcGM/5 + ffGM/5), o25);
- let evBTTS=EV((gGM+ffGM)/10, obtts);
+ let evO25=EV((fcGM/5 + ffGM/5), o25);
+ let evBTTS=EV(((fcGM+ffGM)/10), obtts);
 
- let formGeneral = gV*3 + gE - gD;
  let formHome = fcV*3 + fcE - fcD;
  let formAway = ffV*3 + ffE - ffD;
 
- let attHome = (gGM + fcGM)/10;
- let defHome = (gGS + fcGS)/10;
- let attAway = (gGM + ffGM)/10;
- let defAway = (gGS + ffGS)/10;
+ let attHome = fcGM/5;
+ let defHome = fcGS/5;
+ let attAway = ffGM/5;
+ let defAway = ffGS/5;
 
- let hybrid = formGeneral + (formHome - formAway) + (attHome - defAway) + h + (p1 - p2);
+ let rankPowerHome = (20 - rankHome)/20;
+ let rankPowerAway = (20 - rankAway)/20;
+ let rankInfluence = (rankPowerHome - rankPowerAway) * 30;
+
+ let hybrid = (formHome - formAway) + (attHome - defAway) + h + (p1 - p2) + rankInfluence;
 
  let gh = Math.max(0, attHome - defAway/2 + hybrid/300);
  let ga = Math.max(0, attAway - defHome/2 - hybrid/300);
 
  function sim(gh,ga){
-   let scores={};
-   for(let i=0;i<1000;i++){
-     let H=Math.max(0,Math.round(gh+(Math.random()-0.5)));
-     let A=Math.max(0,Math.round(ga+(Math.random()-0.5)));
-     let k=H+"-"+A; scores[k]=(scores[k]||0)+1;
-   }
-   return Object.entries(scores).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  let scores={};
+  for(let i=0;i<1000;i++){
+    let H=Math.max(0,Math.round(gh+(Math.random()-0.5)));
+    let A=Math.max(0,Math.round(ga+(Math.random()-0.5)));
+    let k=H+"-"+A; scores[k]=(scores[k]||0)+1;
+  }
+  return Object.entries(scores).sort((a,b)=>b[1]-a[1]).slice(0,3);
  }
 
  let res=sim(gh,ga);
